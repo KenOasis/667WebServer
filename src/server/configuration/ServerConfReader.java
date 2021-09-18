@@ -33,4 +33,8 @@ public class ServerConfReader extends ConfigurationReader {
     public String getAlias(String symbolicPath) {
         return this.getAbsolutePathAlias(symbolicPath);
     }
+
+    public String getAccessFile() {
+        return this.getProperty("AccessFile");
+    }
 }

@@ -5,7 +5,6 @@ import java.io.*;
 
 public class ConfigurationReader {
     private Properties properties;
-    private static ConfigurationReader configurationReader;
     private String filename = System.getProperty("user.dir");
     ;
 

@@ -13,8 +13,8 @@ public class Test {
 //        System.out.println(serverConfReader.getAlias("/ab/"));
 //        System.out.println(serverConfReader.getAlias("/ac/"));
 
-        MimeTypeReader mimeTypeReader = new MimeTypeReader("/conf/mime.types");
-        System.out.println(mimeTypeReader.getContentType("skp"));
-        System.out.println(mimeTypeReader.getContentType("latex"));
+//        MimeTypeReader mimeTypeReader = new MimeTypeReader("/conf/mime.types");
+//        System.out.println(mimeTypeReader.getContentType("skp"));
+//        System.out.println(mimeTypeReader.getContentType("latex"));
     }
 }
