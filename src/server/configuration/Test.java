@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class Test {
     public static void main(String[] args) throws IOException {
-//        ServerConfReader serverConfReader = new ServerConfReader("/conf/httpd.conf");
+        ServerConfReader serverConfReader = new ServerConfReader("/conf/httpd.conf");
 //        System.out.println(serverConfReader.getServerRoot());
 //        System.out.println(serverConfReader.getDocumentRoot());
 //        System.out.println(serverConfReader.getListenPort());
@@ -16,5 +16,8 @@ public class Test {
 //        MimeTypeReader mimeTypeReader = new MimeTypeReader("/conf/mime.types");
 //        System.out.println(mimeTypeReader.getContentType("skp"));
 //        System.out.println(mimeTypeReader.getContentType("latex"));
+        String path = serverConfReader.getAlias("/ab/");
+        System.out.println(path);
+        System.out.println(path.endsWith("/"));
     }
 }

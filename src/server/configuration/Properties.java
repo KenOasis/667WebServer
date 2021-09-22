@@ -37,21 +37,23 @@ public class Properties {
                 // if the tokens are mimeTypes, create a new hashmap as <Extensions, MimeTypes> key-value pair
                 if(tokens.length > 1) {
                     for( int i = 1; i < tokens.length; ++i) {
-                        regularProperties.put(tokens[i], tokens[0]);
+                        regularProperties.put(tokens[i], tokens[0].replaceAll("\"", ""));
                     }
                 }
             } else {
                 if(tokens[0].equals("Alias")) {
                     // if the tokens is Alias
-                    alias.put(tokens[1], tokens[2]);
+                    alias.put(tokens[1], tokens[2].replaceAll("\"", ""));
                 } else if (tokens[0].equals("ScriptAlias")) {
                     // if the tokens is ScriptAlias
-                    scriptAlias.put(tokens[1], tokens[2]);
+                    scriptAlias.put(tokens[1], tokens[2].replaceAll("\"", ""));
                 } else {
                     // tokens is regular type key-value pair
                     if(tokens.length == 1)
                         regularProperties.put(tokens[0], "");
-                    regularProperties.put(tokens[0], tokens[1]);
+                    else {
+                        regularProperties.put(tokens[0], tokens[1].replaceAll("\"", ""));
+                    }
                 }
             }
         }

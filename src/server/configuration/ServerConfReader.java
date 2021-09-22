@@ -37,4 +37,9 @@ public class ServerConfReader extends ConfigurationReader {
     public String getAccessFile() {
         return this.getProperty("AccessFile");
     }
+
+    public String getDirectoryIndex() {
+        String directoryIndex = this.getProperty("DirectoryIndex");
+        return directoryIndex == null ? "index.html" : directoryIndex;
+    }
 }
