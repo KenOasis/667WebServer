@@ -1,5 +1,8 @@
 package server.handler;
 
+import server.handler.Request;
+import server.handler.Response;
+
 import java.io.IOException;
 /*
     Interface for handling the request

@@ -1,9 +1,13 @@
 package server;
 
 import server.configuration.ServerConfReader;
-import server.handler.GETHandler;
+import server.handler.defaultHandler.GETHandler;
+import server.handler.defaultHandler.HEADHandler;
 import server.handler.Request;
 import server.handler.Response;
+import server.handler.defaultHandler.BadRequestHandler;
+import server.handler.defaultHandler.FileNotFoundHandler;
+import server.handler.defaultHandler.NotImplementedHandler;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -69,31 +73,31 @@ public class WebServer extends Thread{
             dataOut = new BufferedOutputStream((connect.getOutputStream()));
             Request request = new Request(in);
             Response response = new Response(out, dataOut);
+
             String method;
             if (request.parse()) {
+                // TODO Authentication
                 method = request.getMethod().toUpperCase();
-                if(method.equals("GET")){
-                    GETHandler getHandler = new GETHandler();
-                    getHandler.handle(request, response);
+                String absolutePath = request.getHeader("Path");
+                File file = new File(absolutePath);
+                if (file.exists()) {
+                    if(method.equals("GET")) {
+                        GETHandler getHandler = new GETHandler();
+                        getHandler.handle(request, response);
+                    } else if (method.equals("HEAD")) {
+                        HEADHandler headHandler = new HEADHandler();
+                        headHandler.handle(request, response);
+                    } else {
+                        NotImplementedHandler notImplementedHandler = new NotImplementedHandler();
+                        notImplementedHandler.handle(request, response);
+                    }
                 } else {
-                    response.setResponseCodeAndStatus(501, "Not Implemented");
-                    response.addHeader("Server", "WebServer");
-                    response.addHeader("Date", new Date().toString());
-                    // TODO -> should be get from mime.types
-                    response.addHeader("Content-Type", "text/plain");
-                    // TODO -> should be determine by the body;
-                    response.addHeader("Content-length", "0");
-                    response.send();
+                    FileNotFoundHandler fileNotFoundHandler = new FileNotFoundHandler();
+                    fileNotFoundHandler.handle(request, response);
                 }
             } else {
-                response.setResponseCodeAndStatus(500, "Internal Server");
-                response.addHeader("Server", "WebServer");
-                response.addHeader("Date", new Date().toString());
-                // TODO -> should be get from mime.types
-                response.addHeader("Content-Type", "text/plain");
-                // TODO -> should be determine by the body;
-                response.addHeader("Content-length", "0");
-                response.send();
+                BadRequestHandler badRequestHandler = new BadRequestHandler();
+                badRequestHandler.handle(request, response);
             }
         } catch (FileNotFoundException fnfe) {
             System.err.println("Error with file not found exception : " + fnfe.getMessage());

@@ -10,13 +10,11 @@ public class ConfigurationReader {
 
     public ConfigurationReader(String filename) {
         this.filename += filename;
-        System.out.println("File name is : " + this.filename);
         this.properties = new Properties();
     }
 
     public ConfigurationReader(String filename, boolean isMimeTypes) {
         this.filename += filename;
-        System.out.println("File name is : " + this.filename);
     }
 
     public void load() throws IOException {

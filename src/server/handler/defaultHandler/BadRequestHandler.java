@@ -6,14 +6,13 @@ import server.handler.Response;
 
 import java.io.IOException;
 
-public class FileNotFoundHandler implements Handler {
+public class BadRequestHandler implements Handler {
+
     @Override
     public void handle(Request request, Response response) throws IOException {
-        response.setResponseCodeAndStatus(404, "Not Found");
+        response.setResponseCodeAndStatus(400, "Bad Request");
+        String body = "<body><h2>ErrorCode 400, Bad Request, </h2></body>";
         response.addHeader("Content-Type", "text/html");
-        String path = request.getHeader("Path");
-        String body = "<body> <h2> ErrorCode: 404 Not Found </h2>" +
-                "<h3>" + path + "</h3> </body>";
         response.addBody(body);
         response.send();
     }

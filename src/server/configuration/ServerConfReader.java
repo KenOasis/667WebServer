@@ -6,7 +6,6 @@ import java.util.HashMap;
 public class ServerConfReader extends ConfigurationReader {
     public ServerConfReader(String filename) throws IOException {
         super(filename);
-        System.out.println("Configuration file : " + filename);
         this.load();
     }
 
