@@ -18,6 +18,5 @@ public class Test {
 //        System.out.println(mimeTypeReader.getContentType("latex"));
         String path = serverConfReader.getAlias("/ab/");
         System.out.println(path);
-        System.out.println(path.endsWith("/"));
     }
 }

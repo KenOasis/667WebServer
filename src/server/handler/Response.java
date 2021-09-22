@@ -1,8 +1,9 @@
 package server.handler;
 
-
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.HashMap;
 
 public class Response {
@@ -11,9 +12,12 @@ public class Response {
     private HashMap<String, String> headers = new HashMap<>();
     private String body;
     private PrintWriter out;
+    private OutputStream fileOut;
 
-    public Response(PrintWriter out)  {
+    public Response(PrintWriter out, OutputStream fileOut)  {
+
         this.out = out;
+        this.fileOut = fileOut;
     }
 
     public void setResponseCodeAndStatus(int statusCode, String statusMessage)  {
@@ -30,8 +34,14 @@ public class Response {
         this.body = body;
     }
 
+    public void writeFileData(byte[] fileData, int fileLength) throws IOException {
+        this.fileOut.write(fileData, 0, fileLength);
+    }
+
     public void send() throws IOException {
         headers.put("Connection", "Close");
+        headers.put("Server", "Java WebServer");
+        headers.put("Date", new Date().toString());
         out.println("HTTP/1.1 " + statusCode + " " + statusMessage);
         for (String headerName : headers.keySet())  {
             out.println(headerName + ": " + headers.get(headerName));
@@ -41,5 +51,6 @@ public class Response {
             out.println(body);
         }
         out.flush();
+        fileOut.flush();
     }
 }

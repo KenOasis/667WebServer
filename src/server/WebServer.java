@@ -1,6 +1,7 @@
 package server;
 
 import server.configuration.ServerConfReader;
+import server.handler.GETHandler;
 import server.handler.Request;
 import server.handler.Response;
 
@@ -66,22 +67,14 @@ public class WebServer extends Thread{
             in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
             out = new PrintWriter(connect.getOutputStream());
             dataOut = new BufferedOutputStream((connect.getOutputStream()));
-            Request requestParser = new Request(in);
-            Response response = new Response(out);
+            Request request = new Request(in);
+            Response response = new Response(out, dataOut);
             String method;
-            if (requestParser.parse()) {
-                method = requestParser.getMethod().toUpperCase();
-                System.out.println(method);
-                System.out.println(requestParser.getHeader("Path"));
-                if(method.equals("GET") || method.equals("HEAD")) {
-                    response.setResponseCodeAndStatus(200, "OK");
-                    response.addHeader("Server", "WebServer");
-                    response.addHeader("Date", new Date().toString());
-                    // TODO -> should be get from mime.types
-                    response.addHeader("Content-Type", "text/plain");
-                    // TODO -> should be determine by the body;
-                    response.addHeader("Content-length", "0");
-                    response.send();
+            if (request.parse()) {
+                method = request.getMethod().toUpperCase();
+                if(method.equals("GET")){
+                    GETHandler getHandler = new GETHandler();
+                    getHandler.handle(request, response);
                 } else {
                     response.setResponseCodeAndStatus(501, "Not Implemented");
                     response.addHeader("Server", "WebServer");

@@ -4,6 +4,6 @@ import java.io.IOException;
 /*
     Interface for handling the request
  */
-public interface RequestHandler {
+public interface Handler {
     public void handle(Request request, Response response) throws IOException;
 }

@@ -71,13 +71,14 @@ public class Request {
         String scriptAlias;
         String alias;
         int lastIndexOfDir = path.lastIndexOf("/");
-        if(lastIndexOfDir != path.length() - 1) {
-            String dir = path.substring(0, lastIndexOfDir + 1);
-            if((scriptAlias = confReader.getScriptAlias(dir)) != null) {
-                path = scriptAlias + path.substring(lastIndexOfDir + 1);
-            } else if ((alias = confReader.getAlias(dir)) != null) {
-                path = alias + path.substring(lastIndexOfDir + 1);
-            }
+
+        String dir = path.substring(0, lastIndexOfDir + 1);
+        if((scriptAlias = confReader.getScriptAlias(dir)) != null) {
+            path = scriptAlias + path.substring(lastIndexOfDir + 1);
+        } else if ((alias = confReader.getAlias(dir)) != null) {
+            path = alias + path.substring(lastIndexOfDir + 1);
+        } else {
+            path = confReader.getDocumentRoot() + path.substring(lastIndexOfDir + 1);
         }
 
         if (path.endsWith("/")) {
