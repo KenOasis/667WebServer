@@ -1,13 +1,9 @@
 package server;
 
 import server.configuration.ServerConfReader;
-import server.handler.defaultHandler.GETHandler;
-import server.handler.defaultHandler.HEADHandler;
+import server.handler.defaultHandler.*;
 import server.handler.Request;
 import server.handler.Response;
-import server.handler.defaultHandler.BadRequestHandler;
-import server.handler.defaultHandler.FileNotFoundHandler;
-import server.handler.defaultHandler.NotImplementedHandler;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -82,7 +78,11 @@ public class WebServer extends Thread{
                 File file = new File(absolutePath);
                 if (file.exists()) {
                     // TODO Check isScriptAlias and run script
-                    if(method.equals("GET")) {
+                    if(request.isScriptAliased()){
+                        // TODO this should be in PUT or POST
+                        ScriptHandler scriptHandler = new ScriptHandler();
+                        scriptHandler.handle(request, response);
+                    } else if(method.equals("GET")) {
                         // TODO check if-modified-since
                         GETHandler getHandler = new GETHandler();
                         getHandler.handle(request, response);

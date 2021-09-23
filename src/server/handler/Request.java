@@ -72,10 +72,11 @@ public class Request {
         ServerConfReader confReader = new ServerConfReader("/conf/httpd.conf");
         String scriptAlias;
         String alias;
+
         int lastIndexOfDir = path.lastIndexOf("/");
 
         String dir = path.substring(0, lastIndexOfDir + 1);
-        System.out.println("Path init : " + path);
+
         if((scriptAlias = confReader.getScriptAlias(dir)) != null) {
             path = scriptAlias + path.substring(lastIndexOfDir + 1);
             isScriptAliased = true;
@@ -89,7 +90,6 @@ public class Request {
             path = path + confReader.getDirectoryIndex();
         }
 
-        System.out.println("PATH : " + path);
         headerInfo.put("Path", path);
 
         // parse query parameter
@@ -109,6 +109,10 @@ public class Request {
 
     public String getHeader(String headerName) {
         return this.headerInfo.get(headerName);
+    }
+
+    public HashMap<String, String> getHeaders() {
+        return (HashMap<String, String>) this.headerInfo.clone();
     }
 
     public String getQueryParameter(String parameterName) {

@@ -1,5 +1,6 @@
 package server.handler;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -39,6 +40,10 @@ public class Response {
     public void writeFileData(byte[] fileData, int fileLength) throws IOException {
         this.fileBytes = fileData;
         this.fileLength = fileLength;
+    }
+
+    public OutputStream getFileOut() {
+        return fileOut;
     }
 
     public void send() throws IOException {

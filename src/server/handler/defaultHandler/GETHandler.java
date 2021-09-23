@@ -13,8 +13,6 @@ import java.io.IOException;
 public class GETHandler implements Handler {
     @Override
     public void handle(Request request, Response response) throws IOException {
-        String filePath = request.getHeader("Path");
-        File file = new File(filePath);
         response.setResponseCodeAndStatus(200, "OK");
         ResponseFileHandler responseFileHandler = new ResponseFileHandler();
         responseFileHandler.handle(request, response);
