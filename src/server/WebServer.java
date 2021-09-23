@@ -4,6 +4,8 @@ import server.configuration.ServerConfReader;
 import server.handler.defaultHandler.*;
 import server.handler.Request;
 import server.handler.Response;
+import server.handler.AuthHandle;
+import server.handler.AccessHandle;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -68,9 +70,33 @@ public class WebServer extends Thread{
 
             String method;
             if (request.parse()) {
-                // TODO Authentication
+
                 method = request.getMethod().toUpperCase();
                 String absolutePath = request.getHeader("Path");
+
+                // Authentication
+                boolean isAuth = true;
+                AccessHandle checkAccess =new AccessHandle(absolutePath);
+                if(checkAccess.checkAccessFile()) {
+                    isAuth = false;
+                    String AuthHeader = request.getHeader("Authorization");
+                    if (AuthHeader != null) {
+                        AuthHandle auth = new AuthHandle(AuthHeader, checkAccess.getAccessFileInfo());
+                        if (auth.isAuthorized()) {
+                            isAuth = true;
+                        }
+                        else{
+                            ForbiddenHandler forbid =new ForbiddenHandler();
+                            forbid.handle(request,response);
+                        }
+                    } else {
+                        UnauthHander unauth = new UnauthHander();
+                        unauth.handle(request, response);
+                    }
+                }
+
+                System.out.println("Authorization Work");
+                // Check file exist
                 File file = new File(absolutePath);
                 if (file.exists()) {
                     // TODO Check isScriptAlias and run script

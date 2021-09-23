@@ -1,0 +1,4 @@
+AuthUserFile "/Users/alin991/Desktop/new667/667WebServer/public_html/protected/.htpasswd"
+AuthType Basic
+AuthName "I Challenge You"
+Require valid-user

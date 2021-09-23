@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a11f713d-98a9-4d30-80f5-d8b5a9f2ec45" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/public_html/protected/.htaccess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public_html/protected/.htpasswd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/handler/AccessHandle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/handler/AuthHandle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/server/handler/defaultHandler/ForbiddenHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/httpd.conf" beforeDir="false" afterPath="$PROJECT_DIR$/conf/httpd.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public_html/.htaccess" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public_html/.htpasswd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/WebServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/WebServer.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1yYY9j387WssVxwdqOYmhENIdRk" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public_html/protected" />
+      <recent name="$PROJECT_DIR$/public_html" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="server.handler" />
+      <recent name="server.handler.defaultHandler" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="WebServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.WebServer" />
+      <module name="667WebServer" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.WebServer" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a11f713d-98a9-4d30-80f5-d8b5a9f2ec45" name="Default Changelist" comment="" />
+      <created>1632429839337</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1632429839337</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>

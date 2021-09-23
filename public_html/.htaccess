@@ -1,4 +1,0 @@
-AuthUserFile "/Users/jinjiantan/Git/667WebServer/public_html/.htpasswd"
-AuthType Basic
-AuthName "I Challenge You"
-Require valid-user
