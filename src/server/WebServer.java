@@ -81,21 +81,26 @@ public class WebServer extends Thread{
                 String absolutePath = request.getHeader("Path");
                 File file = new File(absolutePath);
                 if (file.exists()) {
+                    // TODO Check isScriptAlias and run script
                     if(method.equals("GET")) {
+                        // TODO check if-modified-since
                         GETHandler getHandler = new GETHandler();
                         getHandler.handle(request, response);
                     } else if (method.equals("HEAD")) {
                         HEADHandler headHandler = new HEADHandler();
                         headHandler.handle(request, response);
                     } else {
+                        // Not Implemented
                         NotImplementedHandler notImplementedHandler = new NotImplementedHandler();
                         notImplementedHandler.handle(request, response);
                     }
                 } else {
+                    // 404 Not Found
                     FileNotFoundHandler fileNotFoundHandler = new FileNotFoundHandler();
                     fileNotFoundHandler.handle(request, response);
                 }
             } else {
+                // 400 Bad Request
                 BadRequestHandler badRequestHandler = new BadRequestHandler();
                 badRequestHandler.handle(request, response);
             }

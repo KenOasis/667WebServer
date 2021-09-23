@@ -4,6 +4,7 @@ import server.configuration.ConfigurationReader;
 import server.configuration.ServerConfReader;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -14,6 +15,7 @@ public class Request {
     private String URI = null;
     private HashMap<String, String> headerInfo = null;
     private HashMap<String, String> queryParams = null;
+    private boolean isScriptAliased = false;
     public Request(BufferedReader in) {
         this.in = in;
         this.headerInfo = new HashMap<>();
@@ -23,7 +25,7 @@ public class Request {
     public boolean parse() throws IOException {
         String firstLine = in.readLine();
         if (firstLine == null) {
-            throw new IOException("Parsing error, request header is null.");
+            return false;
         }
         StringTokenizer tokenizer = new StringTokenizer(firstLine);
         String[] tokens = new String[3];
@@ -73,18 +75,21 @@ public class Request {
         int lastIndexOfDir = path.lastIndexOf("/");
 
         String dir = path.substring(0, lastIndexOfDir + 1);
+        System.out.println("Path init : " + path);
         if((scriptAlias = confReader.getScriptAlias(dir)) != null) {
             path = scriptAlias + path.substring(lastIndexOfDir + 1);
+            isScriptAliased = true;
         } else if ((alias = confReader.getAlias(dir)) != null) {
             path = alias + path.substring(lastIndexOfDir + 1);
         } else {
-            path = confReader.getDocumentRoot() + path.substring(lastIndexOfDir + 1);
+            path = confReader.getDocumentRoot() + path.substring(1);
         }
-
-        if (path.endsWith("/")) {
+        File file = new File(path);
+        if (!isScriptAliased && file.isDirectory()) {
             path = path + confReader.getDirectoryIndex();
         }
 
+        System.out.println("PATH : " + path);
         headerInfo.put("Path", path);
 
         // parse query parameter
@@ -108,6 +113,10 @@ public class Request {
 
     public String getQueryParameter(String parameterName) {
         return this.queryParams.get(parameterName);
+    }
+
+    public boolean isScriptAliased() {
+        return this.isScriptAliased;
     }
     // helper method to parse query parameters
     private void parseQueryParams(String queryString) {

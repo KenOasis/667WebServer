@@ -21,6 +21,8 @@ public class ResponseFileHandler implements Handler {
         if (indexOfExtensionDot != -1) {
             mimeTypes = mimeTypeReader.getContentType(path.substring(indexOfExtensionDot + 1));
         }
+        System.out.println("MimeTypes : " + mimeTypes);
+        System.out.println("File length : " + fileLength);
         byte[] fileData = readFileData(file, fileLength);
         response.addHeader("Content-Type", mimeTypes);
         response.addHeader("Content-Length", Integer.toString(fileLength));

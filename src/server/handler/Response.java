@@ -13,6 +13,8 @@ public class Response {
     private String body;
     private PrintWriter out;
     private OutputStream fileOut;
+    private byte[] fileBytes;
+    private int fileLength;
 
     public Response(PrintWriter out, OutputStream fileOut)  {
 
@@ -35,7 +37,8 @@ public class Response {
     }
 
     public void writeFileData(byte[] fileData, int fileLength) throws IOException {
-        this.fileOut.write(fileData, 0, fileLength);
+        this.fileBytes = fileData;
+        this.fileLength = fileLength;
     }
 
     public void send() throws IOException {
@@ -51,6 +54,9 @@ public class Response {
             out.println(body);
         }
         out.flush();
-        fileOut.flush();
+        if(fileBytes != null) {
+            fileOut.write(fileBytes, 0, fileLength);
+            fileOut.flush();
+        }
     }
 }
