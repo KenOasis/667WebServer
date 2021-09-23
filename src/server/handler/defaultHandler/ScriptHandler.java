@@ -4,9 +4,8 @@ import server.handler.Handler;
 import server.handler.Request;
 import server.handler.Response;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.Date;
 import java.util.Map;
 
 public class ScriptHandler implements Handler {
@@ -14,33 +13,38 @@ public class ScriptHandler implements Handler {
     public void handle(Request request, Response response) throws IOException {
         // TODO - implemented in POST or PUT method;
         String path = request.getHeader("Path");
-        System.out.println("RUN");
         ProcessBuilder pb = new ProcessBuilder(path);
+        OutputStream out = response.getOutputStream();
+        out.write(("HTTP/1.1 200\r\n").getBytes());
+        out.write(("Server : JavaWebServer\r\n").getBytes());
+        out.write(("Date : " + new Date().toString() + "\r\n").getBytes());
         try {
             Map<String, String> env = pb.environment();
             Map<String, String> headers = request.getHeaders();
             for (Map.Entry<String, String> header: headers.entrySet()){
                 env.put(header.getKey(), header.getValue());
             }
-            pb.redirectOutput(new File("ABC"));
-            pb.start();
-            response.setResponseCodeAndStatus(200, "OK");
-            response.send();
-         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            Process process = pb.start();
+            InputStream inputStream = process.getInputStream();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    byte[] buffer = new byte[0x100000];
+                    int len = 0;
+                    try {
+                    while ((len = inputStream.read(buffer)) >0){
+                            out.write(buffer, 0, len);
+                    } } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+            process.waitFor();
+            System.out.println("ExitValue : " + process.exitValue());
+            out.flush();
+         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    private byte[] readFileData(File file, int fileLength) throws IOException {
-        FileInputStream fileInputStream = null;
-        byte[] fileData = new byte[fileLength];
-        try {
-            fileInputStream = new FileInputStream(file);
-            fileInputStream.read(fileData);
-        } finally {
-            if (fileInputStream != null)
-                fileInputStream.close();
-        }
-        return fileData;
-    }
 }

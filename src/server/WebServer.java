@@ -59,16 +59,12 @@ public class WebServer extends Thread{
     @Override
     public void run() {
         BufferedReader in = null;
-        PrintWriter out = null;
-        BufferedOutputStream dataOut = null;
-        String fileRequested = null;
-
+        BufferedOutputStream out = null;
         try {
             in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
-            out = new PrintWriter(connect.getOutputStream());
-            dataOut = new BufferedOutputStream((connect.getOutputStream()));
+            out = new BufferedOutputStream((connect.getOutputStream()));
             Request request = new Request(in);
-            Response response = new Response(out, dataOut);
+            Response response = new Response(out);
 
             String method;
             if (request.parse()) {
@@ -86,9 +82,16 @@ public class WebServer extends Thread{
                         // TODO check if-modified-since
                         GETHandler getHandler = new GETHandler();
                         getHandler.handle(request, response);
+
+                        if (verbose) {
+                           System.out.println("GET " + absolutePath);
+                        }
                     } else if (method.equals("HEAD")) {
                         HEADHandler headHandler = new HEADHandler();
                         headHandler.handle(request, response);
+                        if (verbose) {
+                            System.out.println("HEAD " + absolutePath);
+                        }
                     } else {
                         // Not Implemented
                         NotImplementedHandler notImplementedHandler = new NotImplementedHandler();
@@ -112,7 +115,6 @@ public class WebServer extends Thread{
             try {
                 in.close();
                 out.close();
-                dataOut.close();
                 connect.close();
             } catch (Exception e) {
                 System.err.println("Error closing stream : " + e.getMessage());

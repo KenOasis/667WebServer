@@ -14,29 +14,15 @@ public class ResponseFileHandler implements Handler {
         String path = request.getHeader("Path");
         File file = new File(path);
         int fileLength = (int) file.length();
-        String fileExtension;
         String mimeTypes = "text/plain";
         MimeTypeReader mimeTypeReader = new MimeTypeReader("/conf/mime.types");
         int indexOfExtensionDot = path.lastIndexOf(".");
         if (indexOfExtensionDot != -1) {
             mimeTypes = mimeTypeReader.getContentType(path.substring(indexOfExtensionDot + 1));
         }
-        byte[] fileData = readFileData(file, fileLength);
+        response.writeFileData(file);
         response.addHeader("Content-Type", mimeTypes);
         response.addHeader("Content-Length", Integer.toString(fileLength));
-        response.writeFileData(fileData, fileLength);
         response.send();
-    }
-    private byte[] readFileData(File file, int fileLength) throws IOException {
-        FileInputStream fileInputStream = null;
-        byte[] fileData = new byte[fileLength];
-        try {
-            fileInputStream = new FileInputStream(file);
-            fileInputStream.read(fileData);
-        } finally {
-            if (fileInputStream != null)
-                fileInputStream.close();
-        }
-        return fileData;
     }
 }

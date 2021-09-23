@@ -1,9 +1,6 @@
 package server.handler;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -12,15 +9,10 @@ public class Response {
     private String statusMessage;
     private HashMap<String, String> headers = new HashMap<>();
     private String body;
-    private PrintWriter out;
-    private OutputStream fileOut;
-    private byte[] fileBytes;
-    private int fileLength;
-
-    public Response(PrintWriter out, OutputStream fileOut)  {
-
+    private OutputStream out;
+    private File file;
+    public Response(OutputStream out)  {
         this.out = out;
-        this.fileOut = fileOut;
     }
 
     public void setResponseCodeAndStatus(int statusCode, String statusMessage)  {
@@ -37,31 +29,36 @@ public class Response {
         this.body = body;
     }
 
-    public void writeFileData(byte[] fileData, int fileLength) throws IOException {
-        this.fileBytes = fileData;
-        this.fileLength = fileLength;
+    public void writeFileData(File file) throws IOException {
+        this.file = file;
     }
 
-    public OutputStream getFileOut() {
-        return fileOut;
+    public OutputStream getOutputStream() {
+        return out;
     }
 
     public void send() throws IOException {
         headers.put("Connection", "Close");
         headers.put("Server", "Java WebServer");
         headers.put("Date", new Date().toString());
-        out.println("HTTP/1.1 " + statusCode + " " + statusMessage);
+        out.write(("HTTP/1.1 " + statusCode + " " + statusMessage + "\r\n").getBytes());
         for (String headerName : headers.keySet())  {
-            out.println(headerName + ": " + headers.get(headerName));
+            out.write((headerName + " : " + headers.get(headerName) + "\r\n").getBytes());
         }
-        out.println();
+        out.write("\r\n".getBytes());
         if (body != null)  {
-            out.println(body);
+            out.write(body.getBytes());
         }
         out.flush();
-        if(fileBytes != null) {
-            fileOut.write(fileBytes, 0, fileLength);
-            fileOut.flush();
+        if (file != null) {
+            FileInputStream fs = new FileInputStream(file);
+            final byte[] buffer = new byte[0x100000];
+            int count = 0;
+            while ((count = fs.read(buffer)) >= 0) {
+                out.write(buffer, 0, count);
+            }
+            fs.close();
         }
+        out.flush();
     }
 }
