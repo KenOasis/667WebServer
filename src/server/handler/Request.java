@@ -1,6 +1,5 @@
 package server.handler;
 
-import server.configuration.ConfigurationReader;
 import server.configuration.ServerConfReader;
 
 import java.io.BufferedReader;
