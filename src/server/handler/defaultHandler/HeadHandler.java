@@ -8,7 +8,7 @@ import server.handler.Response;
 import java.io.File;
 import java.io.IOException;
 
-public class HEADHandler implements Handler {
+public class HeadHandler implements Handler {
     @Override
     public void handle(Request request, Response response) throws IOException {
         String filePath = request.getHeader("Path");

@@ -16,7 +16,6 @@ public class WebServer extends Thread{
     private static String LOG_FILE = null;
     private static int LISTEN_PORT = 8080;
     private static boolean verbose = true; // use for test
-
     private Socket connect;
 
     public WebServer(Socket c){
@@ -60,6 +59,7 @@ public class WebServer extends Thread{
     public void run() {
         BufferedReader in = null;
         BufferedOutputStream out = null;
+
         try {
             in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
             out = new BufferedOutputStream((connect.getOutputStream()));
@@ -72,6 +72,8 @@ public class WebServer extends Thread{
                 method = request.getMethod().toUpperCase();
                 String absolutePath = request.getHeader("Path");
                 File file = new File(absolutePath);
+//                System.out.println("Path : "  + absolutePath);
+//                System.out.println("exist : " + file.exists());
                 if (file.exists()) {
                     // TODO Check isScriptAlias and run script
                     if(request.isScriptAliased()){
@@ -80,22 +82,27 @@ public class WebServer extends Thread{
                         scriptHandler.handle(request, response);
                     } else if(method.equals("GET")) {
                         // TODO check if-modified-since
-                        GETHandler getHandler = new GETHandler();
+                        GetHandler getHandler = new GetHandler();
                         getHandler.handle(request, response);
 
                         if (verbose) {
                            System.out.println("GET " + absolutePath);
                         }
                     } else if (method.equals("HEAD")) {
-                        HEADHandler headHandler = new HEADHandler();
+                        HeadHandler headHandler = new HeadHandler();
                         headHandler.handle(request, response);
                         if (verbose) {
                             System.out.println("HEAD " + absolutePath);
                         }
-                    } else {
-                        // Not Implemented
-                        NotImplementedHandler notImplementedHandler = new NotImplementedHandler();
-                        notImplementedHandler.handle(request, response);
+                    } else if (method.equals("POST")) {
+                        PostHandler postHandler = new PostHandler();
+                        postHandler.handle(request, response);
+                    } else if (method.equals("DELETE")) {
+                        DeleteHandler deleteHandler = new DeleteHandler();
+                        deleteHandler.handle(request, response);
+                    } else if (method.equals("PUT")) {
+                        PutHandler putHandler = new PutHandler();
+                        putHandler.handle(request, response);
                     }
                 } else {
                     // 404 Not Found

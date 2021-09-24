@@ -1,22 +1,18 @@
 package server.configuration;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class Test {
-    public static void main(String[] args) throws IOException {
-        ServerConfReader serverConfReader = new ServerConfReader("/conf/httpd.conf");
-//        System.out.println(serverConfReader.getServerRoot());
-//        System.out.println(serverConfReader.getDocumentRoot());
-//        System.out.println(serverConfReader.getListenPort());
-//        System.out.println(serverConfReader.getLogFilePath());
-//        System.out.println(serverConfReader.getScriptAlias("/cgi-bin/"));
-//        System.out.println(serverConfReader.getAlias("/ab/"));
-//        System.out.println(serverConfReader.getAlias("/ac/"));
-
-//        MimeTypeReader mimeTypeReader = new MimeTypeReader("/conf/mime.types");
-//        System.out.println(mimeTypeReader.getContentType("skp"));
-//        System.out.println(mimeTypeReader.getContentType("latex"));
-        String path = serverConfReader.getAlias("/ab/");
-        System.out.println(path);
+    public static void main(String[] args) throws IOException, ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss z");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Date date = dateFormat.parse("Sun, 10 May 2020 02:01:00 GMT");
+        System.out.println(date);
     }
 }

@@ -39,7 +39,7 @@ public class Response {
 
     public void send() throws IOException {
         headers.put("Connection", "Close");
-        headers.put("Server", "Java WebServer");
+        headers.put("Server", "Tan Huang");
         headers.put("Date", new Date().toString());
         out.write(("HTTP/1.1 " + statusCode + " " + statusMessage + "\r\n").getBytes());
         for (String headerName : headers.keySet())  {

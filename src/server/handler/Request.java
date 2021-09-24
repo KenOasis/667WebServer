@@ -15,6 +15,7 @@ public class Request {
     private HashMap<String, String> headerInfo = null;
     private HashMap<String, String> queryParams = null;
     private boolean isScriptAliased = false;
+    private String payload;
     public Request(BufferedReader in) {
         this.in = in;
         this.headerInfo = new HashMap<>();
@@ -40,7 +41,6 @@ public class Request {
         // if parse success, the first token is http-method, the second one is the whole uri
         this.method = tokens[0];
         this.URI = tokens[1];
-
         // parse header items
         while (true) {
             String headerLine = in.readLine();
@@ -53,10 +53,17 @@ public class Request {
                 // no header info found
                 break;
             }
-
             headerInfo.put(headerLine.substring(0, delimiterIndex), headerLine.substring(delimiterIndex + 1));
         }
 
+        // parse body payload (if existed)
+        StringBuilder stringBuilder = new StringBuilder();
+        while (in.ready()) {
+           stringBuilder.append((char)in.read());
+        }
+        if (stringBuilder.length() > 0) {
+            this.payload = stringBuilder.toString();
+        }
         // parse absolute path of the url
 
         int paramDelimiterIndex = tokens[1].indexOf("?");
@@ -85,7 +92,7 @@ public class Request {
             path = confReader.getDocumentRoot() + path.substring(1);
         }
         File file = new File(path);
-        if (!isScriptAliased && file.isDirectory()) {
+        if (!isScriptAliased && file.isDirectory() && !method.toUpperCase().equals("PUT")) {
             path = path + confReader.getDirectoryIndex();
         }
 
