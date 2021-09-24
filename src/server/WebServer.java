@@ -75,13 +75,11 @@ public class WebServer extends Thread{
 //                System.out.println("Path : "  + absolutePath);
 //                System.out.println("exist : " + file.exists());
                 if (file.exists()) {
-                    // TODO Check isScriptAlias and run script
                     if(request.isScriptAliased()){
-                        // TODO this should be in PUT or POST
+                        // TODO this should be in PUT or POST ???
                         ScriptHandler scriptHandler = new ScriptHandler();
                         scriptHandler.handle(request, response);
                     } else if(method.equals("GET")) {
-                        // TODO check if-modified-since
                         GetHandler getHandler = new GetHandler();
                         getHandler.handle(request, response);
 

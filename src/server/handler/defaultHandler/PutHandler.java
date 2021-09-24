@@ -27,7 +27,7 @@ public class PutHandler implements Handler {
             response.send();
         } else {
             file.createNewFile();
-            response.setResponseCodeAndStatus(200, "OK");
+            response.setResponseCodeAndStatus(201, "Created");
             response.send();
         }
     }

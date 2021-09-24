@@ -20,6 +20,11 @@ public class GetHandler implements Handler {
         SimpleDateFormat dateFormat = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss z");
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         String ifModifiedStr = request.getHeader("If-Modified-Since").trim();
+
+        String filePath = request.getHeader("Path");
+        File file = new File(filePath);
+        Date lastModified = new Date(file.lastModified());
+
         if (ifModifiedStr != null) {
             Date ifModifiedSinceDate = null;;
             try {
@@ -31,10 +36,6 @@ public class GetHandler implements Handler {
                 badRequestHandler.handle(request, response);
                 return;
             }
-            String filePath = request.getHeader("Path");
-            File file = new File(filePath);
-            Date lastModified = new Date(file.lastModified());
-            System.out.println("Last modified : " + lastModified.toString());
             if (ifModifiedSinceDate.compareTo(lastModified) <= 0) {
                 response.setResponseCodeAndStatus(200, "OK");
                 ResponseFileHandler responseFileHandler = new ResponseFileHandler();
@@ -48,6 +49,5 @@ public class GetHandler implements Handler {
             ResponseFileHandler responseFileHandler = new ResponseFileHandler();
             responseFileHandler.handle(request, response);
         }
-
     }
 }

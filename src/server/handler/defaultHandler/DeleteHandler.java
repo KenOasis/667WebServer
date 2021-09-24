@@ -17,7 +17,7 @@ public class DeleteHandler implements Handler {
             fileNotFoundHandler.handle(request, response);
         } else {
             if(file.delete()){
-                response.setResponseCodeAndStatus(200, "OK");
+                response.setResponseCodeAndStatus(204, "No Content");
                 response.send();
             } else {
                 response.setResponseCodeAndStatus(500, "Internal Server Error");

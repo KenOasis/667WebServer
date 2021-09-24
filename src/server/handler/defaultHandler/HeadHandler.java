@@ -7,23 +7,60 @@ import server.handler.Response;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class HeadHandler implements Handler {
     @Override
     public void handle(Request request, Response response) throws IOException {
+        // Parsing the if-Modified-Since header
+        SimpleDateFormat dateFormat = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss z");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        String ifModifiedStr = request.getHeader("If-Modified-Since").trim();
+
+        // get file metadata
         String filePath = request.getHeader("Path");
         File file = new File(filePath);
-        int fileLength = 0;
+        Date lastModified = new Date(file.lastModified());
+        int fileLength = (int) file.length();;
         String mimeTypes = "text/plain";
         MimeTypeReader mimeTypeReader = new MimeTypeReader("/conf/mime.types");
         int indexOfExtensionDot = filePath.lastIndexOf(".");
         if (indexOfExtensionDot != -1) {
             mimeTypes = mimeTypeReader.getContentType(filePath.substring(indexOfExtensionDot + 1));
         }
-        fileLength = (int) file.length();
-        response.setResponseCodeAndStatus(200, "OK");
-        response.addHeader("Content-Type", mimeTypes);
-        response.addHeader("Content-Length", Integer.toString(fileLength));
-        response.send();
+
+        if (ifModifiedStr != null) {
+            Date ifModifiedSinceDate = null;;
+            try {
+                System.out.println(ifModifiedStr);
+                ifModifiedSinceDate = dateFormat.parse(ifModifiedStr);
+            } catch (ParseException pe) {
+                // parsing failed 400 Bad Request
+                pe.printStackTrace();
+                BadRequestHandler badRequestHandler = new BadRequestHandler();
+                badRequestHandler.handle(request, response);
+                return;
+            }
+
+            if (ifModifiedSinceDate.compareTo(lastModified) <= 0) {
+                response.setResponseCodeAndStatus(200, "OK");
+                response.addHeader("Content-Type", mimeTypes);
+                response.addHeader("Content-Length", Integer.toString(fileLength));
+                response.send();
+            } else {
+                response.setResponseCodeAndStatus(304, "NOT Modified");
+                response.addHeader("Content-Type", mimeTypes);
+                response.addHeader("Content-Length", Integer.toString(fileLength));
+                response.send();
+            }
+        } else {
+            response.setResponseCodeAndStatus(200, "OK");
+            response.addHeader("Content-Type", mimeTypes);
+            response.addHeader("Content-Length", Integer.toString(fileLength));
+            response.send();
+        }
     }
 }
