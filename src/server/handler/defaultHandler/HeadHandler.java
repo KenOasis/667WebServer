@@ -18,7 +18,7 @@ public class HeadHandler implements Handler {
         // Parsing the if-Modified-Since header
         SimpleDateFormat dateFormat = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss z");
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String ifModifiedStr = request.getHeader("If-Modified-Since").trim();
+        String ifModifiedStr = request.getHeader("If-Modified-Since");
 
         // get file metadata
         String filePath = request.getHeader("Path");
@@ -35,8 +35,7 @@ public class HeadHandler implements Handler {
         if (ifModifiedStr != null) {
             Date ifModifiedSinceDate = null;;
             try {
-                System.out.println(ifModifiedStr);
-                ifModifiedSinceDate = dateFormat.parse(ifModifiedStr);
+                ifModifiedSinceDate = dateFormat.parse(ifModifiedStr.trim());
             } catch (ParseException pe) {
                 // parsing failed 400 Bad Request
                 pe.printStackTrace();

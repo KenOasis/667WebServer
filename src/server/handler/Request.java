@@ -125,6 +125,10 @@ public class Request {
         return this.queryParams.get(parameterName);
     }
 
+    public String getPayload() {
+        return this.payload;
+    }
+
     public boolean isScriptAliased() {
         return this.isScriptAliased;
     }

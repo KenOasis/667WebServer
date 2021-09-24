@@ -5,6 +5,7 @@ import server.handler.Request;
 import server.handler.Response;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ public class PutHandler implements Handler {
     public void handle(Request request, Response response) throws IOException {
         String fileName = request.getQueryParameter("filename");
         String path = request.getHeader("Path");
+        String payload = request.getPayload();
         if (fileName == null) {
             fileName = "new_file.txt";
         }
@@ -27,6 +29,11 @@ public class PutHandler implements Handler {
             response.send();
         } else {
             file.createNewFile();
+            if (payload != null) {
+                FileWriter fileWriter = new FileWriter(file);
+                fileWriter.write(payload);
+                fileWriter.close();
+            }
             response.setResponseCodeAndStatus(201, "Created");
             response.send();
         }
