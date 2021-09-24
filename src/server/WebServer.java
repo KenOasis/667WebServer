@@ -78,6 +78,7 @@ public class WebServer extends Thread{
                 boolean isAuth = true;
                 AccessHandle checkAccess =new AccessHandle(absolutePath);
                 if(checkAccess.checkAccessFile()) {
+                    System.out.println("need to verify");
                     isAuth = false;
                     String AuthHeader = request.getHeader("Authorization");
                     if (AuthHeader != null) {
@@ -94,8 +95,9 @@ public class WebServer extends Thread{
                         unauth.handle(request, response);
                     }
                 }
-
-                System.out.println("Authorization Work");
+                if(isAuth) {
+                    System.out.println("Authorization Work");
+                }
                 // Check file exist
                 File file = new File(absolutePath);
                 if (file.exists()) {

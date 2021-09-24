@@ -58,10 +58,14 @@ public class AuthHandle {
         boolean result = true;
 
         if(AuthType.equals(AccessFileInfo.get("AuthType"))) {
+
+
+            // decode client header //dgadfggad
             String credentials = new String(
                     Base64.getDecoder().decode(AuthInfo),
                     Charset.forName("UTF-8")
             );
+            //user:password 1
             String[] tokens = credentials.split(":");
             if (tokens.length == 2) {
                 result = verifyPassword(tokens[0], tokens[1]);
@@ -82,7 +86,9 @@ public class AuthHandle {
         // encrypt the password, and compare it to the password stored
         // in the password file (keyed by username)
         // method, below
+
         if(checkAndParsePasswordFile()) {
+            //encode
             String decode = encryptClearPassword(password);
             if (decode.equals(pwdFileInfo.get(name))) {
                 return true;

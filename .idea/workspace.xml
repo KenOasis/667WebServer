@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a11f713d-98a9-4d30-80f5-d8b5a9f2ec45" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public_html/protected/.htaccess" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public_html/protected/.htpasswd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/handler/AccessHandle.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/handler/AuthHandle.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/server/handler/defaultHandler/ForbiddenHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf/httpd.conf" beforeDir="false" afterPath="$PROJECT_DIR$/conf/httpd.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public_html/.htaccess" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public_html/.htpasswd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/667WebServer/server/WebServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/667WebServer/server/WebServer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/WebServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/WebServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/handler/AuthHandle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/handler/AuthHandle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/handler/defaultHandler/ForbiddenHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/handler/defaultHandler/ForbiddenHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/handler/defaultHandler/UnauthHander.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/handler/defaultHandler/UnauthHander.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,9 +26,13 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public_html/ab1/ab2" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public_html/ab1/ab2" />
+      <recent name="$PROJECT_DIR$/public_html/protected" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/public_html/protected" />
       <recent name="$PROJECT_DIR$/public_html" />
@@ -83,5 +84,16 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/server/WebServer.java</url>
+          <line>103</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
