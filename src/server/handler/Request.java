@@ -75,7 +75,7 @@ public class Request {
             path = tokens[1].substring(0, paramDelimiterIndex);
         }
 
-        ServerConfReader confReader = new ServerConfReader("/conf/httpd.conf");
+        ServerConfReader confReader = new ServerConfReader();
         String scriptAlias;
         String alias;
 
@@ -115,6 +115,10 @@ public class Request {
 
     public String getHeader(String headerName) {
         return this.headerInfo.get(headerName);
+    }
+
+    public void addHeader(String headerName, String headeVal) {
+        this.headerInfo.put(headerName, headeVal);
     }
 
     public HashMap<String, String> getHeaders() {

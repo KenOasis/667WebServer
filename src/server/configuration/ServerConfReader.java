@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class ServerConfReader extends ConfigurationReader {
-    public ServerConfReader(String filename) throws IOException {
-        super(filename);
+    private final static String configurationFile = "/conf/httpd.conf";
+    public ServerConfReader() throws IOException {
+        super(configurationFile);
         this.load();
     }
 

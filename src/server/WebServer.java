@@ -23,7 +23,7 @@ public class WebServer extends Thread{
     }
 
     private static void LoadConf() throws IOException {
-        ServerConfReader serverConfReader = new ServerConfReader("/conf/httpd.conf");
+        ServerConfReader serverConfReader = new ServerConfReader();
         SERVER_ROOT = serverConfReader.getServerRoot();
         DOCUMENT_ROOT = serverConfReader.getDocumentRoot();
         LOG_FILE = serverConfReader.getLogFilePath();
@@ -69,6 +69,7 @@ public class WebServer extends Thread{
             String method;
             if (request.parse()) {
                 // TODO Authentication
+                // TODO call request.AddHeader("userid", username) if authentication success
                 method = request.getMethod().toUpperCase();
                 String absolutePath = request.getHeader("Path");
                 File file = new File(absolutePath);
@@ -76,7 +77,6 @@ public class WebServer extends Thread{
 //                System.out.println("exist : " + file.exists());
                 if (file.exists()) {
                     if(request.isScriptAliased()){
-                        // TODO this should be in PUT or POST ???
                         ScriptHandler scriptHandler = new ScriptHandler();
                         scriptHandler.handle(request, response);
                     } else if(method.equals("GET")) {

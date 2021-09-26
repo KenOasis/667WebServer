@@ -3,8 +3,10 @@ package server.handler.defaultHandler;
 import server.handler.Handler;
 import server.handler.Request;
 import server.handler.Response;
+import server.logs.Logger;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 
@@ -12,6 +14,9 @@ public class ScriptHandler implements Handler {
     @Override
     public void handle(Request request, Response response) throws IOException {
         // TODO - implemented in POST or PUT method;
+        Logger logger = new Logger(request);
+        logger.setStatusCode(200);
+        int bodySize = 0;
         String path = request.getHeader("Path");
         ProcessBuilder pb = new ProcessBuilder(path);
         OutputStream out = response.getOutputStream();
@@ -40,11 +45,11 @@ public class ScriptHandler implements Handler {
                 }
             }).start();
             process.waitFor();
-            System.out.println("ExitValue : " + process.exitValue());
             out.flush();
          } catch (Exception e) {
             e.printStackTrace();
         }
+        logger.log();
     }
 
 }

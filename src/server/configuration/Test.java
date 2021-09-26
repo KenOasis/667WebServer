@@ -10,9 +10,9 @@ import java.util.TimeZone;
 
 public class Test {
     public static void main(String[] args) throws IOException, ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss z");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        Date date = dateFormat.parse("Sun, 10 May 2020 02:01:00 GMT");
-        System.out.println(date);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss Z");
+        dateFormat.setTimeZone(TimeZone.getDefault());
+        Date date = new Date();
+        System.out.println(dateFormat.format(date));
     }
 }
